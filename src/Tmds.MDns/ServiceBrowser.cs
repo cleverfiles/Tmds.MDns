@@ -243,7 +243,11 @@ namespace Tmds.MDns
                 }
 
                 HashSet<NetworkInterfaceHandler> handlers = new HashSet<NetworkInterfaceHandler>(_interfaceHandlers.Values);
-                var networkInterfaces = NetworkInterface.GetAllNetworkInterfaces();
+                NetworkInterface[] networkInterfaces = [];
+                try {
+                    networkInterfaces = NetworkInterface.GetAllNetworkInterfaces();
+                } catch (Exception) {
+                }
                 foreach (NetworkInterface networkInterface in networkInterfaces)
                 {
                     if (networkInterface.NetworkInterfaceType == NetworkInterfaceType.Tunnel)

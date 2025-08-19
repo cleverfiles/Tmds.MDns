@@ -65,17 +65,21 @@ namespace Tmds.MDns
                 if (supportsIPv4 && _ipv4Socket == null)
                 {
                     int index = networkInterface.GetIPProperties().GetIPv4Properties().Index;
-                    _ipv4Socket = CreateIpv4Socket(index);
-
-                    StartReceive(_ipv4Socket, CreateEventArgs(_ipv4Socket, OnReceive));
+                    try {
+                        _ipv4Socket = CreateIpv4Socket(index);
+                        StartReceive(_ipv4Socket, CreateEventArgs(_ipv4Socket, OnReceive));
+                    } catch (Exception) {
+                    }
                 }
 
                 if (supportsIPv6 && _ipv6Socket == null)
                 {
                     _ipv6InterfaceIndex = networkInterface.GetIPProperties().GetIPv6Properties().Index;
-                    _ipv6Socket = CreateIpv6Socket(_ipv6InterfaceIndex);
-
-                    StartReceive(_ipv6Socket, CreateEventArgs(_ipv6Socket, OnReceive));
+                    try {
+                        _ipv6Socket = CreateIpv6Socket(_ipv6InterfaceIndex);
+                        StartReceive(_ipv6Socket, CreateEventArgs(_ipv6Socket, OnReceive));
+                    } catch (Exception) {
+                    }
                 }
 
                 StartQuery();
